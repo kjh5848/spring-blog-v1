@@ -26,6 +26,22 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    //select이지만 로그인은 예외로 post를 한다.
+    @PostMapping("/login")
+    public String login(UserRequest.loginDTO requestDTO) {
+        //1. 유효성 검사
+        if (requestDTO.getUsername().length() < 3) {
+            return "error/400";
+        }
+
+        //2. 모델 연결
+        User user = userRepository.findByUsernameAndPassword(requestDTO);
+        System.out.println(user);
+
+        //3. 응답
+        return "redirect:/";
+    }
+
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requestDTO) {
         System.out.println(requestDTO);
