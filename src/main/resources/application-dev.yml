@@ -3,6 +3,9 @@ server:
     encoding:
       charset: utf-8
       force: true
+#      세션의 생명주기
+    session:
+      timeout: 30m
   port: 8080
 
 # db 연결
