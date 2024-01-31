@@ -16,10 +16,16 @@ spring:
     url: jdbc:h2:mem:test;MODE=MySQL
     username: sa
     password:
+
 #  콘솔 url 만드는 것
   h2:
     console:
       enabled: true
+  sql:
+    init:
+      data-locations:
+#       data-locations:은 리스트이며 하이폰 -classpath: 리소스 폴더다.
+        - classpath:db/data.sql
   jpa:
     hibernate:
       ddl-auto: create
@@ -27,3 +33,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    defer-datasource-initialization: true
+
+
