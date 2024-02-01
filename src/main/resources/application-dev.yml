@@ -12,6 +12,7 @@ server:
 spring:
   mustache:
     servlet:
+#      세션과 리퀘스트 저장 영역에 접근가능 코드
       expose-session-attributes: true
       expose-request-attributes: true
   datasource:
@@ -36,6 +37,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+#        .sql 테이블을 만들기 위해
     defer-datasource-initialization: true
 
 
