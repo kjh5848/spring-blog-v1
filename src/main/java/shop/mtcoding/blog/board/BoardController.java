@@ -1,10 +1,10 @@
 package shop.mtcoding.blog.board;
 
+import shop.mtcoding.blog._core.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import shop.mtcoding.blog.user.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,19 +18,20 @@ public class BoardController {
     private final BoardRepository boardRepository;
 
     //http://localhost:8080?page=0
-    @GetMapping({ "/", "/board" })
-    public String index(HttpServletRequest request,@RequestParam(defaultValue = "0") int page) {
+    @GetMapping({"/", "/board"})
+    public String index(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
 
         List<Board> boardList = boardRepository.findAll(page);
         request.setAttribute("boardList", boardList);
 
         int currentPage = page;
-        int nextPage = currentPage+1;
-        int prevPage = currentPage-1;
+        int nextPage = currentPage + 1;
+        int prevPage = currentPage - 1;
 
-        request.setAttribute("nextPage",nextPage);
-        request.setAttribute("prevPage",prevPage);
+        request.setAttribute("nextPage", nextPage);
+        request.setAttribute("prevPage", prevPage);
 
+<<<<<<< HEAD
         boolean first = currentPage == 0 ? true : false;
         request.setAttribute("first",first);
 
@@ -40,6 +41,14 @@ public class BoardController {
         System.out.println(remainCount);
         boolean last = currentPage == remainCount ?  true: false;
         request.setAttribute("last",last);
+=======
+
+        boolean first = PagingUtil.isFirst(currentPage);
+        boolean last = PagingUtil.isLast(currentPage, 3);
+
+        request.setAttribute("first", first);
+        request.setAttribute("last", last);
+>>>>>>> 80f4c215fc0c85fe06b838bcb9ffbd94450e7ec6
 
         return "index";
     }
