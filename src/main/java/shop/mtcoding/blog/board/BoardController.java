@@ -31,19 +31,14 @@ public class BoardController {
         request.setAttribute("nextPage",nextPage);
         request.setAttribute("prevPage",prevPage);
 
-
         boolean first = currentPage == 0 ? true : false;
         request.setAttribute("first",first);
 
-
-//        Board board = boardRepository.count();
-//        request.setAttribute("board", board);
-
         int totalCount = boardRepository.count();;
-//       int totalCount = 4;
-        int paging = 3;
-        int lastPage = totalCount%paging; // 3 % 3 = 0
-        boolean last = currentPage == lastPage ?  true: false;
+        int pagingCount = 3;
+        int remainCount = totalCount%pagingCount; // 3 % 3 = 0
+        System.out.println(remainCount);
+        boolean last = currentPage == remainCount ?  true: false;
         request.setAttribute("last",last);
 
         return "index";

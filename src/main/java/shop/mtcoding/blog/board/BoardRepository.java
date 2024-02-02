@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,9 +27,9 @@ public class BoardRepository {
 
     public int count() {
         Query query = em.createNativeQuery("SELECT count(*) FROM BOARD_TB");
-        int totalCount = ((Number) query.getSingleResult()).intValue();
+
+        int totalCount = ((BigInteger) query.getSingleResult()).intValue();
 //       int totalCount =  (Integer) query.getSingleResult();
         return totalCount;
     }
-
 }
