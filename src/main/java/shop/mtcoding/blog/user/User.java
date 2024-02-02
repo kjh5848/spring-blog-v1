@@ -1,10 +1,9 @@
 package shop.mtcoding.blog.user;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.stereotype.Controller;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 //유저 데이터베이스에 있는 값을 받는다.

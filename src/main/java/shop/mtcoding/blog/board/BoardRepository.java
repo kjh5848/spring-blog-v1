@@ -1,10 +1,11 @@
 package shop.mtcoding.blog.board;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -31,5 +32,18 @@ public class BoardRepository {
         int totalCount = ((BigInteger) query.getSingleResult()).intValue();
 //       int totalCount =  (Integer) query.getSingleResult();
         return totalCount;
+    }
+
+    public BoardResponse.DatailDTO findById(int id) {
+        Query query = em.createNativeQuery(
+                "SELECT bt.id, bt.title, bt.content, bt.created_at, bt.user_id uid, ut.username\n" +
+                "FROM board_tb bt inner join user_tb ut\n" +
+                "on bt.user_id = ut.id \n" +
+                "where bt.id = ?");
+        query.setParameter(1, id);
+
+        JpaResultMapper rm = new JpaResultMapper();
+        BoardResponse.DatailDTO responseDTO = rm.uniqueResult(query, BoardResponse.DatailDTO.class);
+        return responseDTO;
     }
 }

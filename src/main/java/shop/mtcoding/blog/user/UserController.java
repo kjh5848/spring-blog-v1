@@ -1,12 +1,11 @@
 package shop.mtcoding.blog.user;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpSession;
 
 
 /**
@@ -24,6 +23,7 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     private final UserRepository userRepository;
+    //IOC 컨테이너에 세션에 접근할 수 있는 변수가 들어있음 DI
     private final HttpSession session;
 
     //select이지만 로그인은 예외로 post를 한다.
