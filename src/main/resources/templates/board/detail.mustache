@@ -1,13 +1,18 @@
-{{> /layout/header}}
+{{> layout/header}}
 
 <div class="container p-5">
-
+    {{#board}}
     <!-- 수정삭제버튼 -->
     <div class="d-flex justify-content-end">
         <button class="btn btn-warning me-1">수정</button>
         <button class="btn btn-danger">삭제</button>
     </div>
+    {{/board}}
 
+
+    <div class="d-flex justify-content-end mt-2">
+        <b>작성자</b> : ssar
+    </div>
     <!-- 게시글내용 -->
     <div>
         <h2><b>제목자리</b></h2>
@@ -58,4 +63,4 @@
     </div>
 </div>
 
-{{> /layout/footer}}
+{{> layout/footer}}
