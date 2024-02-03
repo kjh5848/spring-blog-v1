@@ -1,10 +1,10 @@
 package shop.mtcoding.blog.board;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import shop.mtcoding.blog.user.User;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 // 오브젝트인 데이터 때문에 따로 만든다.

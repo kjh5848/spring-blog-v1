@@ -1,10 +1,11 @@
 package shop.mtcoding.blog.board;
 
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 @RequiredArgsConstructor
 @Repository
