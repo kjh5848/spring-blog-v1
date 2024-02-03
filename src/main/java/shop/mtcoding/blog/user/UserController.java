@@ -7,16 +7,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller
+
 @RequiredArgsConstructor
+@Controller
 public class UserController {
 
     private final UserRepository userRepository;
     private final HttpSession session;
 
     @PostMapping("/login")
-
-    public String login(UserRequest.JoinDTO requestDTO) {
+    public String login(UserRequest.LoginDTO requestDTO) {
         System.out.println(requestDTO);
         // 1, 유효성 검사
         if (requestDTO.getUsername().length() <= 3) {
@@ -74,6 +74,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout() {
+        session.invalidate();
         return "redirect:/";
     }
 }

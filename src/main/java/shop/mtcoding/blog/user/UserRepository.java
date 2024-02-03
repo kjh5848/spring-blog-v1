@@ -4,11 +4,11 @@ package shop.mtcoding.blog.user;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Repository
 public class UserRepository {
 
@@ -27,7 +27,7 @@ public class UserRepository {
     }
 
 
-    public User findByUsernameAndPassword(UserRequest.JoinDTO requestDTO) {
+    public User findByUsernameAndPassword(UserRequest.LoginDTO requestDTO) {
         Query query = em.createNativeQuery("select * from user_tb where username = ? and password = ?", User.class);
         query.setParameter(1, requestDTO.getUsername());
         query.setParameter(2, requestDTO.getPassword());
