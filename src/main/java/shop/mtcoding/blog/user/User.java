@@ -1,8 +1,8 @@
 package shop.mtcoding.blog.user;
 
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +23,7 @@ public class User {
     private String password;
     private String email;
 
-    @Timestamp
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
 

@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <!--            if문 - 리퀘스트 영역과 세션에 접근가능-->
-                {{#sesstionUser}}
+                {{#sessionUser}}
 
                     <li class="nav-item">
                         <a class="nav-link" href="/board/saveform">글쓰기</a>
@@ -31,8 +31,8 @@
                         <a class="nav-link" href="/logout">로그아웃</a>
                     </li>
 
-                {{/sesstionUser}}
-                {{^sesstionUser}}
+                {{/sessionUser}}
+                {{^sessionUser}}
 
 
                     <li class="nav-item">
@@ -41,7 +41,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/loginForm">로그인</a>
                     </li>
-                {{/sesstionUser}}
+                {{/sessionUser}}
 
             </ul>
         </div>

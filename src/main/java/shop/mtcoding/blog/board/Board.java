@@ -1,8 +1,8 @@
 package shop.mtcoding.blog.board;
 
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -13,13 +13,16 @@ import java.time.LocalDateTime;
 public class Board {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private int id;
-    @Column(unique = true)
     private String title;
     private String content;
     private int userId;
 
-    @Timestamp
+    @CreationTimestamp
     private LocalDateTime createdAt;
 }
+
+
+
+

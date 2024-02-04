@@ -19,8 +19,8 @@ public class UserController {
     public String login(UserRequest.LoginDTO requestDTO) {
         System.out.println(requestDTO);
         // 1, 유효성 검사
-        if (requestDTO.getUsername().length() <= 3) {
-            return "error/400";
+        if (requestDTO.getUsername().length() < 3) {
+            return "4001";
         }
 
         // 2. 모델 위
@@ -29,7 +29,7 @@ public class UserController {
         if (user == null) {
             return "error/401";
         } else {
-            session.setAttribute("sesstionUser", user);
+            session.setAttribute("sessionUser", user);
             return "redirect:/";
         }
 
@@ -41,7 +41,7 @@ public class UserController {
 
         // 1, 유효성 검사
         if (requestDTO.getUsername().length() <= 3) {
-            return "error/400";
+            return "4001";
         }
 
         // 2. 모델 위임
@@ -49,7 +49,7 @@ public class UserController {
         if (user == null) {
             userRepository.save(requestDTO);
         } else {
-            return "error/400";
+            return "4001";
         }
 
         return "redirect:/loginForm";
