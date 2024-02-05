@@ -24,8 +24,8 @@ public class BoardController {
 
 
     @GetMapping("/board")
-    public String search(@RequestParam = "") {
-
+    public String search(@RequestParam(defaultValue = "title") String title) {
+        boardRepository.searchByTitle(title);
 
         return null;
     }

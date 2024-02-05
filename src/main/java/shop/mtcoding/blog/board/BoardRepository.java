@@ -56,4 +56,11 @@ public class BoardRepository {
         query.executeUpdate();
 
     }
+
+    public void searchByTitle(String title) {
+        Query query = em.createNativeQuery("select * from board_tb where title like ? order by id desc");
+        query.setParameter(1, "%"+title+"%");
+
+        query.getSingleResult();
+    }
 }
