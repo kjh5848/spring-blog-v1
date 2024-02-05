@@ -3,6 +3,7 @@ package shop.mtcoding.blog.board;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,18 +15,22 @@ public class BoardRepository {
     private final EntityManager em;
 
 
-    public List<Board> findAll(int id) {
-
-        Query query = em.createNativeQuery("select * from board_tb order by id desc where = ?", Board.class);
-        query.setParameter(1, id);
+    public List<Board> findAll(int page) {
+        int value = page*3;
+        Query query = em.createNativeQuery("select * from board_tb order by id desc limit ?,? ", Board.class);
+        query.setParameter(1, value);
+        query.setParameter(2, 3);
 
         List<Board> boardList = query.getResultList();
         return boardList;
     }
 
-    public int findById(int id) {
-        Query query = em.createNativeQuery("select count(*)from board_tb", Board.class);
-        Long user = (Long) query.getSingleResult();
-        return  user.intValue();
+    public BoardResponse.DetailDTO findById(int id) {
+        Query query = em.createNativeQuery("select b.id, b.title, b.content, b.created_at, b.user_id, u.id from board_tb b inner join user_tb u on b.user_id = u.id where u.id = ?,");
+        query.setParameter(1, id);
+
+        JpaResultMapper rm = new JpaResultMapper();
+        BoardResponse.DetailDTO responseDTO = rm.uniqueResult(query, BoardResponse.DetailDTO.class);
+        return responseDTO;
     }
 }
