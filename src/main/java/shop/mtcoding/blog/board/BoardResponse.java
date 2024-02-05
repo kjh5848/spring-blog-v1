@@ -1,18 +1,34 @@
 package shop.mtcoding.blog.board;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class BoardResponse {
 
+    @AllArgsConstructor
     @Data
     public static class DetailDTO {
-        private int id;
+        private Integer id;
         private String title;
         private String content;
         private Timestamp createdAt;
-        private int userId;
+        private Integer userId;
         private String username;
+
     }
+
+    @AllArgsConstructor
+    @Data
+    public static class saveFormDTO {
+        private Integer id;
+        private String title;
+        private String content;
+        private Integer userId;
+
+    }
+
+
+
 }

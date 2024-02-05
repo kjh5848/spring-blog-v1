@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import shop.mtcoding.blog._core.PagingUtil;
 import shop.mtcoding.blog.user.User;
 
 import java.util.List;
@@ -19,6 +21,20 @@ public class BoardController {
 
     private final HttpSession session;
     private final BoardRepository boardRepository;
+
+
+    @GetMapping("/board")
+    public String search(@RequestParam = "") {
+
+
+        return null;
+    }
+
+    @PostMapping("/board/save")
+    public String post(BoardResponse.saveFormDTO repusetDTO) {
+        boardRepository.save(repusetDTO);
+        return "redirect:/";
+    }
 
     @GetMapping({"/", "/board"})
     public String index(@RequestParam(defaultValue = "0") int page, HttpServletRequest request) {
@@ -33,20 +49,10 @@ public class BoardController {
         request.setAttribute("nextPage", nextPage);
         request.setAttribute("prevPage", prevPage);
 
-        boolean first = currentPage == 0 ? true : false;
+        boolean first = PagingUtil.isFirst(currentPage);
+        boolean last = PagingUtil.isLast(currentPage, boardRepository.count());
+
         request.setAttribute("first", first);
-
-        boolean last = false;
-
-        int totalCount = 4;
-        int pagingCount = 3;
-        int remainCount = totalCount % pagingCount;
-        int totalPageCount = totalCount / pagingCount;
-
-        if (remainCount > 0) {
-            totalPageCount += 1;
-        }
-        last = currentPage + 1 == totalPageCount ? true : false;
         request.setAttribute("last", last);
 
         return "index";
@@ -67,14 +73,15 @@ public class BoardController {
         boolean owner = false;
 
         int boardUserId = responseDTO.getUserId();
-        User sessionUser = (User) request.getAttribute("sessionUser");
+
+        User sessionUser = (User) session.getAttribute("sessionUser");
         if (sessionUser != null) {
             if (boardUserId == sessionUser.getId()) {
                 owner = true;
             }
         }
-
         request.setAttribute("owner", owner);
+
         return "board/detail";
     }
 }

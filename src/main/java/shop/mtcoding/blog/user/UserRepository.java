@@ -18,7 +18,6 @@ public class UserRepository {
         query.setParameter(1, requestDTO.getUsername());
         query.setParameter(2, requestDTO.getPassword());
         query.setParameter(3, requestDTO.getEmail());
-
         query.executeUpdate();
     }
 
