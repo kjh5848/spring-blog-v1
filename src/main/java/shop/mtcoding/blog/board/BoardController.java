@@ -59,6 +59,8 @@ public class BoardController {
 
         int board = boardRepository.findById(id);
         request.setAttribute("board",board);
+
+
         boolean owner = false;
 
 

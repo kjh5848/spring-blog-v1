@@ -14,12 +14,10 @@ public class BoardRepository {
     private final EntityManager em;
 
 
-    public List<Board> findAll(int page) {
-        final int COUNT = 3;
-        int value = page * COUNT;
-        Query query = em.createNativeQuery("select * from board_tb order by id desc limit ?,?", Board.class);
-        query.setParameter(1, value);
-        query.setParameter(2, COUNT);
+    public List<Board> findAll(int id) {
+
+        Query query = em.createNativeQuery("select * from board_tb order by id desc where = ?", Board.class);
+        query.setParameter(1, id);
 
         List<Board> boardList = query.getResultList();
         return boardList;
