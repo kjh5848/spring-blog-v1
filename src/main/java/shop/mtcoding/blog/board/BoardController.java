@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import shop.mtcoding.blog.user.User;
 
 import java.util.List;
 
@@ -29,11 +30,11 @@ public class BoardController {
         int nextPage = currentPage + 1;
         int prevPage = currentPage - 1;
 
-        request.setAttribute("nextPage",nextPage);
-        request.setAttribute("prevPage",prevPage);
+        request.setAttribute("nextPage", nextPage);
+        request.setAttribute("prevPage", prevPage);
 
         boolean first = currentPage == 0 ? true : false;
-        request.setAttribute("first",first);
+        request.setAttribute("first", first);
 
         boolean last = false;
 
@@ -45,8 +46,8 @@ public class BoardController {
         if (remainCount > 0) {
             totalPageCount += 1;
         }
-        last =currentPage+1 == totalPageCount ? true : false;
-        request.setAttribute("last",last);
+        last = currentPage + 1 == totalPageCount ? true : false;
+        request.setAttribute("last", last);
 
         return "index";
     }
@@ -60,20 +61,20 @@ public class BoardController {
     public String detail(@PathVariable int id, HttpServletRequest request) {
 
         BoardResponse.DetailDTO responseDTO = boardRepository.findById(id);
-        request.setAttribute("board",responseDTO);
+        request.setAttribute("board", responseDTO);
 
 
         boolean owner = false;
 
-        int boardList = responseDTO.getUserId();
+        int boardUserId = responseDTO.getUserId();
+        User sessionUser = (User) request.getAttribute("sessionUser");
+        if (sessionUser != null) {
+            if (boardUserId == sessionUser.getId()) {
+                owner = true;
+            }
+        }
 
-
-
-
-
-
-
-
+        request.setAttribute("owner", owner);
         return "board/detail";
     }
 }

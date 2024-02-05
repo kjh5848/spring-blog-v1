@@ -26,7 +26,7 @@ public class BoardRepository {
     }
 
     public BoardResponse.DetailDTO findById(int id) {
-        Query query = em.createNativeQuery("select b.id, b.title, b.content, b.created_at, b.user_id, u.id from board_tb b inner join user_tb u on b.user_id = u.id where u.id = ?,");
+        Query query = em.createNativeQuery("select b.id, b.title, b.content, b.created_at, b.user_id,u.username u.id from board_tb b inner join user_tb u on b.user_id = u.id where b.id = ?,");
         query.setParameter(1, id);
 
         JpaResultMapper rm = new JpaResultMapper();
