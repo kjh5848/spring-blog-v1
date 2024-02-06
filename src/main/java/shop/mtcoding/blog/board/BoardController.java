@@ -23,10 +23,10 @@ public class BoardController {
     private final BoardRepository boardRepository;
 
 
-    @GetMapping("/board")
-    public String search(@RequestParam(defaultValue = "title") String title) {
-        boardRepository.searchByTitle(title);
-
+    @GetMapping("/board?title=")
+    public String search(@RequestParam(defaultValue = "title") String title,HttpServletRequest request) {
+        List<Board> searchList = boardRepository.searchByTitle(title);
+        request.setAttribute("searchList",searchList);
         return null;
     }
 
