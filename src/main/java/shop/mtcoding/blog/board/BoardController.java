@@ -66,17 +66,34 @@ public class BoardController {
     }
 
 
+    @PostMapping("/board")
+    public String delete() {
 
+
+        return null;
+    }
 
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable int id, HttpServletRequest request) {
         System.out.println("id : " + id);
-
+        // 1. 모델진입 = 상세보기 데이터 가져오기
         // 바디 데이터가 없으면 유효성 검사가 필요없지 ㅎ
         BoardResponse.DetailDTO responseDTO = boardRepository.findById(id);
 
+        // 페이지 주인 여부 체크
+        boolean pageOwner = false;
+
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        int boardUserId = responseDTO.getUserId();
+        if (sessionUser != null) {
+            if (boardUserId == sessionUser.getId()) {
+                pageOwner = true;
+            }
+        }
+
         request.setAttribute("board", responseDTO);
+        request.setAttribute("pageOwner",pageOwner);
         return "board/detail";
     }
 }
