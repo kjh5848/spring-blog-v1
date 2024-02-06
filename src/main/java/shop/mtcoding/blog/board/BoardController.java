@@ -19,6 +19,24 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final HttpSession session;
 
+    @PostMapping("/board/{id}/delete")
+    public String delete(@PathVariable int id,HttpServletRequest request) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) {
+            return "redirect:/loginForm";
+        }
+
+        //2. 권한 없으면 나가
+        Board board = boardRepository.findById(id);
+        if (board.getUserId() != sessionUser.getId()) {
+            request.setAttribute("status", 403);
+            request.setAttribute("msg", "게시글을 삭제할 수 없습니다.");
+            return "error/40x";
+        }
+
+        return "redirect:/";
+    }
+
 
     @GetMapping({"/", "/board"})
     public String index(HttpServletRequest request) {
@@ -79,7 +97,7 @@ public class BoardController {
         System.out.println("id : " + id);
         // 1. 모델진입 = 상세보기 데이터 가져오기
         // 바디 데이터가 없으면 유효성 검사가 필요없지 ㅎ
-        BoardResponse.DetailDTO responseDTO = boardRepository.findById(id);
+        BoardResponse.DetailDTO responseDTO = boardRepository.findByIdWithUser(id);
 
         // 페이지 주인 여부 체크
 
@@ -91,6 +109,7 @@ public class BoardController {
                 pageOwner = true;
             }
         }
+
 
 
 
