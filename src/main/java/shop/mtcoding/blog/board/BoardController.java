@@ -34,6 +34,8 @@ public class BoardController {
             return "error/40x";
         }
 
+        boardRepository.deleteById(id);
+
         return "redirect:/";
     }
 
@@ -116,7 +118,6 @@ public class BoardController {
         request.setAttribute("board", responseDTO);
         request.setAttribute("pageOwner",pageOwner);
 
-        boardRepository.boardDelete(id);
 
         return "board/detail";
     }

@@ -55,7 +55,6 @@ public class BoardRepository {
         return responseDTO;
     }
 
-    @Transactional
     public void save(BoardRequest.SaveDTO requestDTO, int userId) {
         Query query = em.createNativeQuery("insert into board_tb(title, content, user_id, created_at) values (?,?,?,now())");
         query.setParameter(1, requestDTO.getTitle());
@@ -64,7 +63,8 @@ public class BoardRepository {
         query.executeUpdate();
     }
 
-    public void boardDelete(int id) {
+    @Transactional
+    public void deleteById(int id) {
         Query query = em.createNativeQuery("delete from board_tb where id = ?");
         query.setParameter(1, id);
         query.executeUpdate();
