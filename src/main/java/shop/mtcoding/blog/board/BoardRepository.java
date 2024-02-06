@@ -55,4 +55,10 @@ public class BoardRepository {
         query.setParameter(3, userId);
         query.executeUpdate();
     }
+
+    public void boardDelete(int id) {
+        Query query = em.createNativeQuery("delete from board_tb where id = ?");
+        query.setParameter(1, id);
+        query.executeUpdate();
+    }
 }

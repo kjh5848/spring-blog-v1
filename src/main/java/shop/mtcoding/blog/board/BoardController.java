@@ -82,9 +82,9 @@ public class BoardController {
         BoardResponse.DetailDTO responseDTO = boardRepository.findById(id);
 
         // 페이지 주인 여부 체크
-        boolean pageOwner = false;
 
         User sessionUser = (User) session.getAttribute("sessionUser");
+        boolean pageOwner = false;
         int boardUserId = responseDTO.getUserId();
         if (sessionUser != null) {
             if (boardUserId == sessionUser.getId()) {
@@ -92,8 +92,13 @@ public class BoardController {
             }
         }
 
+
+
         request.setAttribute("board", responseDTO);
         request.setAttribute("pageOwner",pageOwner);
+
+        boardRepository.boardDelete(id);
+
         return "board/detail";
     }
 }
