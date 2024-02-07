@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import shop.mtcoding.blog.user.User;
 
 import java.util.List;
@@ -19,28 +18,56 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final HttpSession session;
 
-    @GetMapping("/board/{id}/update")
-    public String update(@RequestParam int id, HttpServletRequest request) {
+    @PostMapping("/board/{id}/update")
+    public String update(@PathVariable int id, BoardRequest.updateDTO requestDTO, HttpServletRequest request) {
+//         1. 인증체크(부가 로직)
+        User sesstionUser = (User) session.getAttribute("sessionUser");
+        if (sesstionUser == null) {
+            return "redirect:/loginForm";
+        }
+
+//         2. 권한체크(부가 로직)
+        Board board = boardRepository.findById(id);
+
+
+        if (board.getUserId() != sesstionUser.getId()) {
+            request.setAttribute("status", 403);
+            request.setAttribute("msg", "권한이 없습니다.");
+            return "error/40x";
+        }
+
+//         3. 핵심로직
+//         update board_tb set title = ?, content = ? , where id = ?
+        boardRepository.update(requestDTO, board.getId());
+
+
+        return "redirect:/board/{id}";
+    }
+
+
+    @GetMapping("/board/{id}/updateForm")
+    public String updateForm(@PathVariable int id, HttpServletRequest request) {
 
         // 인증체크
         User sesstionUser = (User) session.getAttribute("sessionUser");
         if (sesstionUser == null) {
             return "redirect:/loginForm";
         }
-        // 조회 없이 권한체크를 할 수 없다.
+
+        //조회 없이 권한체크를 할 수 없다.
         //모델 위임(id로 board를 조회
         Board board = boardRepository.findById(id);
         if (board.getUserId() != sesstionUser.getId()) {
             request.setAttribute("status", 403);
-            request.setAttribute("msg", "게시글을 삭제할 수 없습니다.");
+            request.setAttribute("msg", "권한이 없습니다.");
             return "error/40x";
         }
-        
 
-        // 권한체크
+        // 가방에 담기
+        request.setAttribute("board", board);
 
 
-        return "board/update";
+        return "board/updateForm";
     }
 
     @PostMapping("/board/{id}/delete")
