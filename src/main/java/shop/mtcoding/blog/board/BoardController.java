@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import shop.mtcoding.blog.user.User;
 
 import java.util.List;
@@ -18,6 +18,30 @@ public class BoardController {
 
     private final BoardRepository boardRepository;
     private final HttpSession session;
+
+    @GetMapping("/board/{id}/update")
+    public String update(@RequestParam int id, HttpServletRequest request) {
+
+        // 인증체크
+        User sesstionUser = (User) session.getAttribute("sessionUser");
+        if (sesstionUser == null) {
+            return "redirect:/loginForm";
+        }
+        // 조회 없이 권한체크를 할 수 없다.
+        //모델 위임(id로 board를 조회
+        Board board = boardRepository.findById(id);
+        if (board.getUserId() != sesstionUser.getId()) {
+            request.setAttribute("status", 403);
+            request.setAttribute("msg", "게시글을 삭제할 수 없습니다.");
+            return "error/40x";
+        }
+        
+
+        // 권한체크
+
+
+        return "board/update";
+    }
 
     @PostMapping("/board/{id}/delete")
     public String delete(@PathVariable int id,HttpServletRequest request) {
