@@ -15,4 +15,9 @@ public class BoardRequest {
         private String title;
         private String content;
     }
+
+    @Data
+    public static class replyDTO {
+        private String coment;
+    }
 }
