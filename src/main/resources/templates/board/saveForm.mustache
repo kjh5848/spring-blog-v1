@@ -2,6 +2,12 @@
 
 <div class="container p-5">
 
+    {{#sessionUser}}
+        <h1>
+            {{username}}님 환영합니다.
+        </h1>
+    {{/sessionUser}}
+
     <!-- 요청을 하면 localhost:8080/board/save POST로 요청됨
     title=사용자입력값&content=사용자값 -->
     <div class="card">

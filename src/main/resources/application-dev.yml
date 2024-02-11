@@ -23,10 +23,10 @@ spring:
   h2:
     console:
       enabled: true
-#  sql:
-#    init:
-#      data-locations:
-#        - classpath:db/data.sql
+  sql:
+    init:
+      data-locations:
+        - classpath:db/data.sql
   jpa:
     hibernate:
       ddl-auto: create
@@ -35,4 +35,4 @@ spring:
       hibernate:
         format_sql: true
     #         .sql 테이블을 만들기 위해
-#    defer-datasource-initialization: true
+    defer-datasource-initialization: true

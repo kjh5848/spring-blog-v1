@@ -1,6 +1,11 @@
 {{> layout/header}}
 
 <div class="container p-5">
+    {{#sessionUser}}
+        <h1>
+            {{username}}님 환영합니다.
+        </h1>
+    {{/sessionUser}}
 
     <!-- 수정삭제버튼 -->
     <div class="d-flex justify-content-end">
@@ -8,14 +13,16 @@
         <button class="btn btn-danger">삭제</button>
     </div>
 
+
     <!-- 게시글내용 -->
     <div>
-        <h2><b>제목자리</b></h2>
+        <h2><b>{{board.title}}</b></h2>
         <hr />
         <div class="m-4 p-2">
-            내용입니다
+            {{board.content}}
         </div>
     </div>
+
 
     <!-- 댓글 -->
     <div class="card mt-3">

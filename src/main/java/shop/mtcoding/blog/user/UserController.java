@@ -15,6 +15,24 @@ public class UserController {
     private final UserRepository userRepository;
     private final HttpSession session;
 
+    @PostMapping("/user/update")
+    public String update(UserRequest.updateDTO requestDTO) {
+
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) {
+            return "redirect:/loginForm";
+        }
+
+//        유효성 검사
+
+
+        userRepository.userUpdate(requestDTO, sessionUser.getId());
+        session.setAttribute("sessionUser",sessionUser);
+
+        return "redirect:/";
+
+    }
+
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requestDTO, HttpServletRequest request) {
 
@@ -48,8 +66,6 @@ public class UserController {
     @GetMapping("/joinForm")
     public String joinForm() {
 
-
-
         return "user/joinForm";
     }
 
@@ -59,19 +75,21 @@ public class UserController {
     }
 
     @GetMapping("/user/updateForm")
-    public String updateForm() {
+    public String updateForm(HttpServletRequest request) {
 
         User sessionUser = (User) session.getAttribute("sessionUser");
         if (sessionUser == null) {
             return "redirect:/loginForm";
-
         }
-
+        User user = (User) userRepository.findById(sessionUser.getId());
+        request.setAttribute("user", user);
         return "user/updateForm";
     }
 
     @GetMapping("/logout")
     public String logout() {
+
+        session.invalidate();
         return "redirect:/";
     }
 }
