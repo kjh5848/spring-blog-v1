@@ -57,7 +57,7 @@ public class BoardController {
     public String detail(@PathVariable int id) {
         // 1. 모델진입 = 상세보기 데이터 가져오기
         // 바디 데이터가 없으면 유효성 검사가 필요없지
-        boardRepository.findById(id);
+        boardRepository.findByIdWithUser(id);
 
 
         return "board/detail";

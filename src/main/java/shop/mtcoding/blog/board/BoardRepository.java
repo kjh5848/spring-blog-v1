@@ -34,7 +34,11 @@ public class BoardRepository {
     }
 
     public List<Board> findAll() {
-        Query query = em.createNativeQuery("select * from board_tb", Board.class);
+        Query query = em.createNativeQuery("select * from board_tb order by id desc ", Board.class);
         return query.getResultList();
+    }
+
+    public void findByIdWithUser(int id) {
+        em.createNativeQuery("");
     }
 }
