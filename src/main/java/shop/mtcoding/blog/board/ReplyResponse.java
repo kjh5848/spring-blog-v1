@@ -2,10 +2,10 @@ package shop.mtcoding.blog.board;
 
 import lombok.Data;
 
-public class ReplyRequest {
+public class ReplyResponse {
     @Data
-    public static class replySaveDTO {
+    public static class replyDetailDTO {
+        private String username;
         private String comment;
     }
-
 }

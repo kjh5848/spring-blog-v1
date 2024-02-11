@@ -16,8 +16,8 @@ public class Reply {
     private int userId;
     private int boardId;
 
-    private String username;
     private String comment;
+    private String username;
 
     @CreationTimestamp
     private Timestamp createdAt;

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -88,5 +90,31 @@ public class BoardRepository {
         query.setParameter(3, requestDTO.getComment());
         query.setParameter(4, username);
         query.executeUpdate();
+    }
+
+    public ReplyResponse.replyDetailDTO findByReply(int idx) {
+        Query query = em.createNativeQuery("select b.id, u.username, r.comment\n" +
+                "from reply_tb r\n" +
+                "inner join board_tb b on r.board_id = b.id\n" +
+                "inner join user_tb u on r.user_id = u.id\n" +
+                "where b.id = ? \n" +
+                "order by r.id desc");
+        query.setParameter(1, idx);
+
+
+
+//        List<Object[]> rows = query.getResultList();
+//
+//        Object[] username = rows.get(1);
+//        Object[] comment = rows.get(2);
+//
+//        ReplyResponse.replyDetailDTO responseDTO = new ReplyResponse.replyDetailDTO();
+//
+//        responseDTO.setUsername(Arrays.toString(username));
+//        responseDTO.setComment(Arrays.toString(comment));
+
+        return responseDTO;
+
+
     }
 }
