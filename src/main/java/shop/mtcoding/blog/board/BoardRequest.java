@@ -11,11 +11,15 @@ public class BoardRequest {
     }
 
     @Data
-    public static class DateilDTO {
+    public static class updateDTO {
         private String title;
         private String content;
-        private int userId;
 
+    }
+
+    @Data
+    public static class searchDTO {
+        private String title;
 
     }
 

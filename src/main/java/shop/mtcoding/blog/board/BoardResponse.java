@@ -1,8 +1,10 @@
 package shop.mtcoding.blog.board;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 public class BoardResponse {
+
     @Data
     public static class DetailDTO {
         private int id;
