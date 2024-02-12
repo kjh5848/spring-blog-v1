@@ -3,11 +3,10 @@ package shop.mtcoding.blog.board;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -92,7 +91,7 @@ public class BoardRepository {
         query.executeUpdate();
     }
 
-    public ReplyResponse.replyDetailDTO findByReply(int idx) {
+    public List<ReplyResponse.replyDetailDTO> findByBoardIdAndReply(int idx) {
         Query query = em.createNativeQuery("select b.id, u.username, r.comment\n" +
                 "from reply_tb r\n" +
                 "inner join board_tb b on r.board_id = b.id\n" +
@@ -101,7 +100,8 @@ public class BoardRepository {
                 "order by r.id desc");
         query.setParameter(1, idx);
 
-
+        JpaResultMapper rm = new JpaResultMapper();
+        List<ReplyResponse.replyDetailDTO> responseDTO = (List<ReplyResponse.replyDetailDTO>) rm.list(query, ReplyResponse.replyDetailDTO.class);
 
 //        List<Object[]> rows = query.getResultList();
 //
@@ -116,5 +116,26 @@ public class BoardRepository {
         return responseDTO;
 
 
+    }
+
+    @Transactional
+    public void replyDelete(int id) {
+        Query query =  em.createNativeQuery("delete from reply_tb where id = ?");
+        query.setParameter(1, id);
+        query.executeUpdate();
+    }
+
+
+    public Reply findByReplyId(int idx) {
+    Query query= em.createNativeQuery("select * from reply_tb where" +
+                " id = ?", Reply.class);
+        query.setParameter(1, idx);
+        Reply reply = (Reply) query.getSingleResult();
+        return reply;
+    }
+
+    public List<Reply> replyAll() {
+        Query query = em.createNativeQuery("select * from reply_tb", Reply.class);
+        return  query.getResultList();
     }
 }

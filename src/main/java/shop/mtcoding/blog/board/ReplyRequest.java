@@ -8,4 +8,9 @@ public class ReplyRequest {
         private String comment;
     }
 
+    @Data
+    public static class replyDeleteDTO {
+        private int id;
+    }
+
 }

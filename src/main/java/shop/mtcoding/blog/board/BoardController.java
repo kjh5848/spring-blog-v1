@@ -19,12 +19,27 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final HttpSession session;
 
+    @PostMapping("/reply/{id}/delete")
+    public String replyDelete(@PathVariable  int id,HttpServletRequest request) {
+        System.out.println("idx = " + id);
+
+        List<Reply> replyAll = boardRepository.replyAll();
+        request.setAttribute("replyl",replyAll);
+
+        Reply reply = boardRepository.findByReplyId(id);
+
+        boardRepository.replyDelete(id);
+
+        return "redirect:/board/{id}";
+    }
+
     @PostMapping("/board/{id}/reply/save")
     public String replySave(@PathVariable int id, ReplyRequest.replySaveDTO requestDTO) {
 
         User sessionUser = (User) session.getAttribute("sessionUser");
         Board board = (Board) boardRepository.findById(id);
         boardRepository.replySave(requestDTO, board.getId(), sessionUser.getId(), sessionUser.getUsername());
+        System.out.println("board = " + board);
 
         return "redirect:/board/{id}";
     }
@@ -36,7 +51,6 @@ public class BoardController {
 
         return "index";
     }
-
 
     @PostMapping("/board/{id}/delete")
     public String delete(@PathVariable int id, HttpServletRequest request) {
@@ -145,11 +159,14 @@ public class BoardController {
             }
         }
 
+        List<Reply> replyAll = boardRepository.replyAll();
+        request.setAttribute("replyl",replyAll);
+
+        List<ReplyResponse.replyDetailDTO> responesDTO = boardRepository.findByBoardIdAndReply(id);
         request.setAttribute("pageOwner", pageOwner);
         request.setAttribute("board", responseDTO);
-
-        ReplyResponse.replyDetailDTO responesDTO = boardRepository.findByReply(id);
         request.setAttribute("replyList", responesDTO);
+
 
 
         return "board/detail";
