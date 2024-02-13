@@ -19,6 +19,7 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final HttpSession session;
 
+
     @PostMapping("/board/{id}/update")
     public String update(@AuthenticationPrincipal MyLoginUser myLoginUser,
                          @PathVariable int id,

@@ -12,4 +12,13 @@ public class BoardResponse {
         private int userId;
         private String username;
     }
+
+    @Data
+    public static class DetailReplyDTO {
+        private int id;
+        private int userId;
+        private int boardId;
+        private String comment;
+    }
+
 }

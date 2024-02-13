@@ -20,10 +20,51 @@ public class UserController {
     private final HttpSession session;
     private final BCryptPasswordEncoder PasswordEncoder;
 
+    @PostMapping("/user/update")
+    public String userUpdate(UserRequest.updateDTO requestDTO, HttpServletRequest request) {
+
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if(sessionUser==null){
+            return "redirect:/loginForm";
+        }
+
+        if (sessionUser.getPassword().length() < 3) {
+            request.setAttribute("status", 401);
+            request.setAttribute("msg", "패스워드는 3개 이상입니다.");
+            return "error/40x";
+        }
+        if (sessionUser.getPassword().equals(requestDTO.getPassword())) {
+            request.setAttribute("status", 401);
+            request.setAttribute("msg", "패스워드가 같습니다.");
+            return "error/40x";
+        }
+
+        userRepository.userUpdate(requestDTO, sessionUser.getId());
+//        User sessionUser2 = (User) session.getAttribute("sesstionUser");
+        session.setAttribute("sessionUser", sessionUser);
+
+        return "redirect:/";
+    }
+
     // 왜 조회인데 post임? 민간함 정보는 body로 보낸다.
     // 로그인만 예외로 select인데 post 사용
     // select * from user_tb where username=? and password=?
+    @PostMapping("/login")
+    public String login(UserRequest.LoginDTO requestDTO) {
+        System.out.println(requestDTO); // toString -> @Data
 
+        if (requestDTO.getUsername().length() < 3) {
+            return "error/400"; // ViewResolver 설정이 되어 있음. (앞 경로, 뒤 경로)
+        }
+        User user = userRepository.findByUsernameAndPassword(requestDTO);
+
+        if (user == null) { // 조회 안됨 (401)
+            return "error/401";
+        } else { // 조회 됐음 (인증됨)
+            session.setAttribute("sessionUser", user); // 락카에 담음 (StateFul)
+        }
+        return "redirect:/"; // 컨트롤러가 존재하면 무조건 redirect 외우기
+    }
 
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requestDTO) {
@@ -51,7 +92,6 @@ public class UserController {
     @GetMapping("/user/updateForm")
     public String updateForm(HttpServletRequest request, @AuthenticationPrincipal MyLoginUser myLoginUser) {
         User user = userRepository.findByUsername(myLoginUser.getUsername());
-
         request.setAttribute("user", user);
         return "user/updateForm";
     }
