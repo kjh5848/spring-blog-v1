@@ -4,9 +4,11 @@ package shop.mtcoding.blog.board;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import shop.mtcoding.blog.user.User;
 
 import java.util.List;
@@ -24,7 +26,8 @@ public class BoardController {
         System.out.println("idx = " + id);
 
         List<Reply> replyAll = boardRepository.replyAll();
-        request.setAttribute("replyl",replyAll);
+        request.setAttribute("reply",replyAll);
+
 
         Reply reply = boardRepository.findByReplyId(id);
 
