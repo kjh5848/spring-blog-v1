@@ -4,9 +4,11 @@ package shop.mtcoding.blog.board;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import shop.mtcoding.blog.user.User;
 
 import java.util.List;
@@ -20,11 +22,11 @@ public class BoardController {
     private final HttpSession session;
 
     @PostMapping("/reply/{id}/delete")
-    public String replyDelete(@PathVariable  int id,HttpServletRequest request) {
+    public String replyDelete(@PathVariable int id, HttpServletRequest request) {
         System.out.println("idx = " + id);
 
         List<Reply> replyAll = boardRepository.replyAll();
-        request.setAttribute("replyl",replyAll);
+        request.setAttribute("replyl", replyAll);
 
         Reply reply = boardRepository.findByReplyId(id);
 
@@ -37,7 +39,7 @@ public class BoardController {
     public String replySave(@PathVariable int id, ReplyRequest.replySaveDTO requestDTO) {
 
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Board board = (Board) boardRepository.findById(id);
+        Board board = boardRepository.findById(id);
         boardRepository.replySave(requestDTO, board.getId(), sessionUser.getId(), sessionUser.getUsername());
         System.out.println("board = " + board);
 
@@ -160,13 +162,12 @@ public class BoardController {
         }
 
         List<Reply> replyAll = boardRepository.replyAll();
-        request.setAttribute("replyl",replyAll);
+        request.setAttribute("replyl", replyAll);
 
         List<ReplyResponse.replyDetailDTO> responesDTO = boardRepository.findByBoardIdAndReply(id);
         request.setAttribute("pageOwner", pageOwner);
         request.setAttribute("board", responseDTO);
         request.setAttribute("replyList", responesDTO);
-
 
 
         return "board/detail";
