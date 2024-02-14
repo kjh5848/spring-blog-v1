@@ -26,9 +26,10 @@ public class BoardController {
         System.out.println("idx = " + id);
 
         List<Reply> replyAll = boardRepository.replyAll();
-        request.setAttribute("replyl", replyAll);
+        request.setAttribute("replyAll", replyAll);
 
         Reply reply = boardRepository.findByReplyId(id);
+        request.setAttribute("reply", reply);
 
         boardRepository.replyDelete(id);
 
@@ -162,12 +163,12 @@ public class BoardController {
         }
 
         List<Reply> replyAll = boardRepository.replyAll();
-        request.setAttribute("replyl", replyAll);
+        request.setAttribute("replyAll", replyAll);
 
-        List<ReplyResponse.replyDetailDTO> responesDTO = boardRepository.findByBoardIdAndReply(id);
+        List<ReplyResponse.replyDetailDTO> replyDetailDTOList = boardRepository.findByBoardIdAndReply(id);
         request.setAttribute("pageOwner", pageOwner);
         request.setAttribute("board", responseDTO);
-        request.setAttribute("replyList", responesDTO);
+        request.setAttribute("replyList", replyDetailDTOList);
 
 
         return "board/detail";
