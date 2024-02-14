@@ -1,10 +1,10 @@
-package shop.mtcoding.blog.board;
+package shop.mtcoding.blog.reply;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -21,6 +21,6 @@ public class Reply {
     private String comment;
 
     @CreationTimestamp
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
 }

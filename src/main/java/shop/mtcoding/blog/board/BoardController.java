@@ -18,19 +18,7 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final HttpSession session;
 
-    @PostMapping("/board/{id}/reply/save")
-    public String reply(@PathVariable int id, HttpServletRequest request, BoardRequest.replyDTO requestDTO) {
-        User sesstionUser = (User) session.getAttribute("sessionUser");
 
-        //권한
-        //유효성
-        //조회
-//        boardRepository.findByIdWithUserIdAndBoardId(requestDTO);
-        //모델 위임
-        boardRepository.replySave(requestDTO, id, sesstionUser.getId());
-
-        return "/board/{id}/detail";
-    }
 
     @PostMapping("/board/{id}/update")
     public String update(@PathVariable int id, BoardRequest.updateDTO requestDTO, HttpServletRequest request) {
