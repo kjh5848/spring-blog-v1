@@ -8,7 +8,17 @@ public class App1 {
         DBData1 dbData = new DBData1(1, "제목1", "내용1", 3, "love", "love@nate.com");
 
         // 2. dbData1를 ViewData1에 옮기시오 - ORM
+        User user = new User(dbData.getUserId(), dbData.getUsername(), dbData.getEmail());
+        user.setUserId(dbData.getUserId());
+        user.setEmail(dbData.getEmail());
+        user.setUsername(dbData.getUsername());
+        System.out.println("user = " + user);
 
+        ViewData1 viewData1 = new ViewData1(dbData.getBoardId(), dbData.getTitle(), dbData.getContent());
+        viewData1.setBoardId(dbData.getBoardId());
+        viewData1.setTitle(dbData.getTitle());
+        viewData1.setContent(dbData.getContent());
+        System.out.println("viewData1 = " + viewData1);
 
     }
 }

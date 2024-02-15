@@ -14,4 +14,7 @@ public class ViewData1 {
     private String content;
 
     private User user;
+
+    public ViewData1(int boardId, String title, String content) {
+    }
 }

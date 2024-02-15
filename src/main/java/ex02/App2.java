@@ -1,5 +1,8 @@
 package ex02;
 
+import ex02.model.Reply;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +17,24 @@ public class App2 {
         List<DBData2> dbList = Arrays.asList(dbData1, dbData2, dbData3);
 
         // 2. ddbList(컬렉션을) ViewData(오브젝트)에 옮기시오 - ORM
-        
+        Integer boardId = dbList.get(0).getBoardId();
+        String title = dbList.get(0).getTitle();
+        String content = dbList.get(0).getContent();
+
+        ViewData2 viewData2 = new ViewData2(
+                boardId, title, content);
+
+        for (DBData2 db : dbList) {
+            Integer rId = db.getReplyId();
+            String comment = db.getComment();
+            Reply reply = new Reply(rId, comment);
+
+            if (rId != null) {
+
+                viewData2.addReply(reply);
+            }
+        }
+        System.out.println("viewData2 = " + viewData2);
+
     }
 }
