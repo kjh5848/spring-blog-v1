@@ -166,8 +166,8 @@ public class BoardController {
             }
         }
 
-
-
+        List<BoardResponse.DetailDTO> detailDTO = boardRepository.findByIdWithUserV2(id);
+        request.setAttribute("detailDTO", detailDTO);
 
         request.setAttribute("board", responseDTO);
         request.setAttribute("pageOwner",pageOwner);

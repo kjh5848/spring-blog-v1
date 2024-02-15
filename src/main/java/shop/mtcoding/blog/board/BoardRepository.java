@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -13,6 +14,38 @@ import java.util.List;
 public class BoardRepository {
     private final EntityManager em;
 
+    public List<BoardResponse.DetailDTO> findByIdWithUserV2(int idx) {
+
+
+        Query query = em.createNativeQuery("select bt.id, bt.title, bt.content, bt.user_id, but.username, bt.created_at, rt.id r_id, rt.user_id r_user_id, rut.username,  rt.comment\n" +
+                "from board_tb bt inner join reply_tb rt on bt.id = rt.board_id \n" +
+                "inner join user_tb but on bt.user_id = but.id \n" +
+                "left join user_tb rut on rt.user_id = rut.id where bt.id = ? ");
+        query.setParameter(1, idx);
+
+        List<Object[]> rows = (List<Object[]>) query.getResultList();
+
+        for (Object[] row : rows) {
+
+            Integer id = (Integer) row[0];
+            String title = (String) row[1];
+            String content = (String) row[2];
+            Integer userId = (Integer) row[3];
+            String username = (String) row[4];
+            Timestamp createdAt = (Timestamp) row[5];
+            Integer rId = (Integer) row[6];
+            Integer rUserId = (Integer) row[7];
+            String rUsername = (String) row[8];
+            String rComment = (String) row[9];
+
+            List<BoardResponse.DetailDTO> responseDTO = (List<BoardResponse.DetailDTO>) new BoardResponse.DetailDTO(
+                    id, title, content, userId, username, createdAt, rId,rUserId, rUsername, rComment
+            );
+
+            return responseDTO;
+        }
+        return null;
+    }
 
 
     public Board findById(int id) {
