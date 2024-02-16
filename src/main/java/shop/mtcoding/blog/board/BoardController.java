@@ -150,6 +150,8 @@ public class BoardController {
         request.setAttribute("board", boardDTO);
         request.setAttribute("replyList", replyDTOList);
 
+
+
         return "board/detail";
     }
 }
