@@ -21,9 +21,6 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
 
-
-
-
     // ?title=제목1&content=내용1
     // title=제목1&content=내용1
     @PostMapping("/board/{id}/update")
@@ -157,10 +154,6 @@ public class BoardController {
             request.setAttribute("keyword", keyword);
         }
         //전체페이지 개수
-
-
-
-
 
         return "index";
     }
