@@ -1,5 +1,6 @@
 package shop.mtcoding.blog.board;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import shop.mtcoding.blog.user.User;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -18,6 +20,9 @@ public class BoardController {
     private final HttpSession session;
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
+
+
+
 
     // ?title=제목1&content=내용1
     // title=제목1&content=내용1
@@ -114,15 +119,52 @@ public class BoardController {
         return "redirect:/";
     }
 
+    //localhost:8080?page=1 - > page 값이 1
+    //localhost:8080 - > page 값이 0
+    @GetMapping("/")
+    public String index(HttpServletRequest request,
+                        @RequestParam(defaultValue = "0") Integer page,
+                        @RequestParam(defaultValue = "") String keyword) {
 
-    @GetMapping({"/", "/board"})
-    public String index(HttpServletRequest request) {
+        // isEmpty -> null, 공백
+        // isBlank -> null, 공백, 화이트스페이스(2~3번 스페이스) -> 이걸 추천
+        if (keyword.isBlank()) {
+            List<Board> boardList = boardRepository.findAll(page);
+            int count = (int) boardRepository.count();
 
-        List<Board> boardList = boardRepository.findAll();
-        request.setAttribute("boardList", boardList);
+            int namerge = count % 3 == 0? 0:1;
+            int allPageCount = count / 3 + namerge;
+            request.setAttribute("boardList", boardList);
+
+            request.setAttribute("first", page==0);
+            request.setAttribute("last", allPageCount == page+1);
+            request.setAttribute("next", page+1);
+            request.setAttribute("prev", page-1);
+            request.setAttribute("keyword", "");
+
+        } else {
+            List<Board> boardList = boardRepository.findAll(page, keyword);
+            int count = (int) boardRepository.count(keyword);
+
+            int namerge = count % 3 == 0? 0:1;
+            int allPageCount = count / 3 + namerge;
+
+            request.setAttribute("boardList", boardList);
+            request.setAttribute("first", page==0);
+            request.setAttribute("last", allPageCount == page+1);
+            request.setAttribute("next", page+1);
+            request.setAttribute("prev", page-1);
+            request.setAttribute("keyword", keyword);
+        }
+        //전체페이지 개수
+
+
+
+
 
         return "index";
     }
+
 
     //   /board/saveForm 요청(Get)이 온다
     @GetMapping("/board/saveForm")

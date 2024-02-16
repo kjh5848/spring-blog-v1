@@ -13,8 +13,34 @@ import java.util.List;
 public class BoardRepository {
     private final EntityManager em;
 
-    public List<Board> findAll() {
-        Query query = em.createNativeQuery("select * from board_tb order by id desc", Board.class);
+    public long count(String keyword) {
+        Query query = em.createNativeQuery("select count(*) from board_tb where title like ?");
+        query.setParameter(1,"%"+keyword+"%");
+        return (Long) query.getSingleResult();
+    }
+
+    public long count() {
+        Query query = em.createNativeQuery("select count(*) from board_tb");
+        return (Long) query.getSingleResult();
+    }
+
+
+
+    public List<Board> findAll(Integer page) {
+        int value = page * 3;
+
+        Query query = em.createNativeQuery("select * from board_tb order by id desc limit ?,3", Board.class);
+        query.setParameter(1, value);
+        return query.getResultList();
+    }
+
+    public List<Board> findAll(Integer page, String keyword) {
+        int value = page * 3;
+
+        Query query = em.createNativeQuery("select * from board_tb where title like ? order by id desc limit ?,3", Board.class);
+        query.setParameter(1, "%" + keyword + "%");
+        query.setParameter(2, value);
+
         return query.getResultList();
     }
 
@@ -79,5 +105,11 @@ public class BoardRepository {
         query.setParameter(3, id);
 
         query.executeUpdate();
+    }
+
+    public List<Board> search(String title) {
+        Query query = em.createNativeQuery("select * from board_tb where title like ? order by id desc", Board.class);
+        query.setParameter(1, "%"+title+"%");
+        return query.getResultList();
     }
 }
