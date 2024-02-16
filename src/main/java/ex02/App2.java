@@ -30,7 +30,6 @@ public class App2 {
             Reply reply = new Reply(rId, comment);
 
             if (rId != null) {
-
                 viewData2.addReply(reply);
             }
         }

@@ -1,6 +1,6 @@
-package ex01;
+package ex01v2.model.ex01;
 
-import ex01.model.User;
+import ex01v2.model.ex01.model.User;
 
 public class App1 {
     public static void main(String[] args) {
