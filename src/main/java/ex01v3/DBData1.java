@@ -1,5 +1,6 @@
-package ex01.model.ex03.ex01.model.ex01;
+package ex01v3;
 
+import ex01v3.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,10 @@ public class DBData1 {
     private int userId;
     private String username;
     private String email;
+
+    public ViewData1 toViewData() {
+
+        return new ViewData1(boardId,title,content,new User(userId,username,email));
+    }
+
 }

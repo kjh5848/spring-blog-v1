@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Data
 public class ViewData1 {
     private int boardId;
@@ -15,6 +14,11 @@ public class ViewData1 {
 
     private User user;
 
-    public ViewData1(int boardId, String title, String content) {
+    public ViewData1(DBData1 dbData1) {
+
+        this.boardId = dbData1.getBoardId();
+        this.title = dbData1.getTitle();
+        this.content = dbData1.getContent();
+        this.user = new User(dbData1.getUserId(), dbData1.getUsername(), dbData1.getEmail());
     }
 }

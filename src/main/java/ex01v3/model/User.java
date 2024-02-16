@@ -1,10 +1,11 @@
-package ex01.model.ex03.ex01.model.ex01.model;
+package ex01v3.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+
+
 @AllArgsConstructor
 @Data
 public class User {

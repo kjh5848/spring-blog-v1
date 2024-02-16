@@ -14,4 +14,5 @@ public class DBData1 {
     private int userId;
     private String username;
     private String email;
+
 }

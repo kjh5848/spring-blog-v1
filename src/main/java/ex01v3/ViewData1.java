@@ -1,12 +1,10 @@
-package ex01.model.ex01;
+package ex01v3;
 
-import ex01.model.ex01.model.User;
+import ex01v3.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class ViewData1 {
     private int boardId;
@@ -15,6 +13,5 @@ public class ViewData1 {
 
     private User user;
 
-    public ViewData1(int boardId, String title, String content) {
-    }
+
 }
