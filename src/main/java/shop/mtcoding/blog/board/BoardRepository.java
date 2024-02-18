@@ -40,22 +40,23 @@ public class BoardRepository {
         Query query = em.createNativeQuery("select b.id, b.title, b.content, b.user_id, u.username from board_tb b inner join user_tb u on b.user_id = u.id where b.id = ?");
         query.setParameter(1, idx);
 
-        Object[] row = (Object[]) query.getSingleResult();
+        JpaResultMapper rm = new JpaResultMapper();
+        return rm.uniqueResult(query, BoardResponse.DetailDTO.class);
+//        Object[] row = (Object[]) query.getSingleResult();
+//
+//        Integer id = (Integer) row[0];
+//        String title = (String) row[1];
+//        String content = (String) row[2];
+//        int userId = (Integer) row[3];
+//        String username = (String) row[4];
+//
+//        BoardResponse.DetailDTO responseDTO = new BoardResponse.DetailDTO();
+//        responseDTO.setId(id);
+//        responseDTO.setTitle(title);
+//        responseDTO.setContent(content);
+//        responseDTO.setUserId(userId);
+//        responseDTO.setUsername(username);
 
-        Integer id = (Integer) row[0];
-        String title = (String) row[1];
-        String content = (String) row[2];
-        int userId = (Integer) row[3];
-        String username = (String) row[4];
-
-        BoardResponse.DetailDTO responseDTO = new BoardResponse.DetailDTO();
-        responseDTO.setId(id);
-        responseDTO.setTitle(title);
-        responseDTO.setContent(content);
-        responseDTO.setUserId(userId);
-        responseDTO.setUsername(username);
-
-        return responseDTO;
     }
 
     @Transactional
@@ -76,32 +77,27 @@ public class BoardRepository {
 
     public List<Board> search(String title) {
         Query query = em.createNativeQuery("select * from board_tb where title like ? order by id desc", Board.class);
-        query.setParameter(1, "%"+title+"%");
+        query.setParameter(1, "%" + title + "%");
         return query.getResultList();
 
     }
 
     @Transactional
-    public void replySave(ReplyRequest.replySaveDTO requestDTO, int id,int idx, String username) {
+    public void replySave(ReplyRequest.replySaveDTO requestDTO, int userId, String username) {
         Query query = em.createNativeQuery("insert into reply_tb(user_id, board_id, comment,username, created_at) values (?,?,?,?,now())");
-        query.setParameter(1, idx);
-        query.setParameter(2, id);
+        query.setParameter(1, userId);
+        query.setParameter(2, requestDTO.getBoardId());
         query.setParameter(3, requestDTO.getComment());
         query.setParameter(4, username);
         query.executeUpdate();
     }
 
     public List<ReplyResponse.replyDetailDTO> findByBoardIdAndReply(int idx) {
-        Query query = em.createNativeQuery("select b.id, u.username, r.comment\n" +
-                "from reply_tb r\n" +
-                "inner join board_tb b on r.board_id = b.id\n" +
-                "inner join user_tb u on r.user_id = u.id\n" +
-                "where b.id = ? \n" +
-                "order by r.id desc");
+        Query query = em.createNativeQuery("select r.id, r.board_id, u.username, r.comment from reply_tb r inner join board_tb b on r.board_id = b.id inner join user_tb u on r.user_id = u.id where r.board_id = ? order by r.id desc");
         query.setParameter(1, idx);
 
         JpaResultMapper rm = new JpaResultMapper();
-        List<ReplyResponse.replyDetailDTO> responseDTO = (List<ReplyResponse.replyDetailDTO>) rm.list(query, ReplyResponse.replyDetailDTO.class);
+        return rm.list(query, ReplyResponse.replyDetailDTO.class);
 
 //        List<Object[]> rows = query.getResultList();
 //
@@ -113,21 +109,19 @@ public class BoardRepository {
 //        responseDTO.setUsername(Arrays.toString(username));
 //        responseDTO.setComment(Arrays.toString(comment));
 
-        return responseDTO;
-
 
     }
 
     @Transactional
     public void replyDelete(int id) {
-        Query query =  em.createNativeQuery("delete from reply_tb where id = ?");
+        Query query = em.createNativeQuery("delete from reply_tb where id = ?");
         query.setParameter(1, id);
         query.executeUpdate();
     }
 
 
     public Reply findByReplyId(int idx) {
-    Query query= em.createNativeQuery("select * from reply_tb where" +
+        Query query = em.createNativeQuery("select * from reply_tb where" +
                 " id = ?", Reply.class);
         query.setParameter(1, idx);
         Reply reply = (Reply) query.getSingleResult();
@@ -136,6 +130,6 @@ public class BoardRepository {
 
     public List<Reply> replyAll() {
         Query query = em.createNativeQuery("select * from reply_tb", Reply.class);
-        return  query.getResultList();
+        return query.getResultList();
     }
 }

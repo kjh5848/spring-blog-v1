@@ -7,7 +7,8 @@ public class ReplyResponse {
     @AllArgsConstructor
     @Data
     public static class replyDetailDTO {
-        private int id;
+        private Integer id;
+        private Integer boardId;
         private String username;
         private String comment;
     }

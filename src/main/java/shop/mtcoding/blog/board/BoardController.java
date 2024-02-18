@@ -36,13 +36,13 @@ public class BoardController {
         return "redirect:/board/{id}";
     }
 
-    @PostMapping("/board/{id}/reply/save")
-    public String replySave(@PathVariable int id, ReplyRequest.replySaveDTO requestDTO) {
+    @PostMapping("/reply/save")
+    public String replySave(ReplyRequest.replySaveDTO requestDTO) {
 
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Board board = boardRepository.findById(id);
-        boardRepository.replySave(requestDTO, board.getId(), sessionUser.getId(), sessionUser.getUsername());
-        System.out.println("board = " + board);
+
+        boardRepository.replySave(requestDTO, sessionUser.getId(), sessionUser.getUsername());
+
 
         return "redirect:/board/{id}";
     }
@@ -162,10 +162,11 @@ public class BoardController {
             }
         }
 
-        List<Reply> replyAll = boardRepository.replyAll();
-        request.setAttribute("replyAll", replyAll);
+//        Reply reply = boardRepository.findByReplyId(id);
+
 
         List<ReplyResponse.replyDetailDTO> replyDetailDTOList = boardRepository.findByBoardIdAndReply(id);
+        System.out.println("id = " + id);
         request.setAttribute("pageOwner", pageOwner);
         request.setAttribute("board", responseDTO);
         request.setAttribute("replyList", replyDetailDTOList);
