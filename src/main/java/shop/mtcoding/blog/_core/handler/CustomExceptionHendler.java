@@ -12,5 +12,4 @@ public class CustomExceptionHendler {
     public  String error1(Exception e) {
         return Script.back(e.getMessage());
     }
-
 }
