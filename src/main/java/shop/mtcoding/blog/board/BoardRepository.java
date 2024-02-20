@@ -13,6 +13,29 @@ import java.util.List;
 public class BoardRepository {
     private final EntityManager em;
 
+    public Board selectByContent(int id, String content) {
+        Query query = em.createNativeQuery("select * from board_tb where content =? AND id = ?", Board.class);
+        query.setParameter(1, content);
+        query.setParameter(2, id);
+        Board board = (Board) query.getSingleResult();
+        return board;
+    }
+
+    @Transactional
+    public void delete(int id) {
+        Query query = em.createNativeQuery("delete from board_tb where id = ?");
+        query.setParameter(1, id);
+        query.executeUpdate();
+    }
+
+    @Transactional
+    public void update(int id, String content) {
+        Query query = em.createNativeQuery("update board_tb set  content = ?  where id =? ");
+        query.setParameter(1, content);
+        query.setParameter(2, id);
+        query.executeUpdate();
+    }
+
     public List<Board> findAll() {
         Query query = em.createNativeQuery("select * from board_tb", Board.class);
         return query.getResultList();

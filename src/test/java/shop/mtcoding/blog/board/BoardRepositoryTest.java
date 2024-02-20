@@ -18,6 +18,35 @@ public class BoardRepositoryTest {
     private BoardRepository boardRepository;
 
     @Test
+    public void delete() {
+        //given
+        int id = 1;
+
+        //when
+        boardRepository.delete(1);
+
+        Board board = boardRepository.selectOne(id);
+        System.out.println("board = " + board);
+
+        //then 눈으로
+    }
+
+    @Test
+    public void update() {
+        //given
+        int id = 1;
+        String content = "내용1-1";
+
+        // when
+        boardRepository.update(id, content);
+
+        Board board = boardRepository.selectByContent(id, content);
+        System.out.println("board = " + board);
+
+        Assertions.assertThat(board.getContent()).isEqualTo(content);
+    }
+
+    @Test
     public void findAll() {
 
         List<Board> board = boardRepository.findAll();
