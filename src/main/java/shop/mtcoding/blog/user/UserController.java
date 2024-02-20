@@ -45,11 +45,10 @@ public class UserController {
     public @ResponseBody String join(UserRequest.JoinDTO requestDTO) {
         System.out.println(requestDTO);
 
-
         try {
             userRepository.save(requestDTO); // 모델에 위임하기
         } catch (Exception e) {
-            return Script.back("아이디가 중복되었어요.");
+            return Script.back("아이디가 중복되었어요");
         }
         return Script.href("/loginForm");
     }
