@@ -11,4 +11,18 @@ class ScriptTest {
         String result = Script.back("권한이 없어요");
         System.out.println("result = " + result);
     }
+
+    @Test
+    public void href_test() {
+        String result = Script.href("/");
+        System.out.println("result = " + result);
+    }
+
+    @Test
+    public void href1_test() {
+        String a = "틀림";
+        String result = Script.href("/",a);
+        System.out.println("result = " + result);
+    }
+
 }

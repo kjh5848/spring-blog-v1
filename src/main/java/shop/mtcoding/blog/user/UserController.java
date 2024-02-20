@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import shop.mtcoding.blog._core.util.Script;
 
 
@@ -40,17 +39,18 @@ public class UserController {
 
         return "redirect:/"; // 컨트롤러가 존재하면 무조건 redirect 외우기
     }
+
     //@ResponseBody는 리턴 문구가 그대로 리턴된다.
     @PostMapping("/join")
-    public @ResponseBody String join(UserRequest.JoinDTO requestDTO) {
+    public String join(UserRequest.JoinDTO requestDTO) {
         System.out.println(requestDTO);
 
         try {
             userRepository.save(requestDTO); // 모델에 위임하기
         } catch (Exception e) {
-            return Script.back("아이디가 중복되었어요");
+            throw new RuntimeException("아이디가 중복되었어요.");
         }
-        return Script.href("/loginForm");
+        return "redirect:/loginForm";
     }
 
     @GetMapping("/joinForm")
@@ -65,12 +65,17 @@ public class UserController {
 
     @GetMapping("/user/updateForm")
     public String updateForm() {
+        User user = (User) session.getAttribute("sessionUser");
+        if (user == null) {
+            return Script.href("loginForm");
+        }
         return "user/updateForm";
     }
 
     @GetMapping("/logout")
     public String logout() {
         session.invalidate();
+
         return "redirect:/";
     }
 }
