@@ -22,7 +22,7 @@ public class UserController {
     // 로그인만 예외로 select인데 post 사용
     // select * from user_tb where username=? and password=?
 
-    @GetMapping("/username-same-check")
+    @GetMapping("/api/username-same-check")
     public @ResponseBody ApiUtil<?> usernameSameCheck(String username){
         User user = userRepository.findByUsername(username);
         if (user == null) {
