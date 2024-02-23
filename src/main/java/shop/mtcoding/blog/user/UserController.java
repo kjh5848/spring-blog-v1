@@ -6,6 +6,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import shop.mtcoding.blog._core.util.ApiUtil;
 
 
 @RequiredArgsConstructor // final이 붙은 애들에 대한 생성자를 만들어줌
@@ -19,6 +21,20 @@ public class UserController {
     // 왜 조회인데 post임? 민간함 정보는 body로 보낸다.
     // 로그인만 예외로 select인데 post 사용
     // select * from user_tb where username=? and password=?
+
+    @GetMapping("/username-same-check")
+    public @ResponseBody ApiUtil<?> usernameSameCheck(String username){
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            //회원가입 가능
+            return new ApiUtil<>(200, "사용 가능한 아이디입니다." ,true);
+        } else {
+            // 회원가입 불가능
+            return new ApiUtil<>(200, "사용 불가능한 아이디입니다." ,false);
+        }
+
+    }
+
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO) {
         System.out.println(requestDTO); // toString -> @Data

@@ -37,6 +37,7 @@ public class UserRepository {
             return user;
         } catch (Exception e) {
             throw new RuntimeException("아이디를 찾을 수 없습니다.");
+//           return null;
         }
     }
 

@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.board;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -48,8 +49,16 @@ public class BoardRepository {
         Query query = em.createNativeQuery("select * from board_tb where id = ?", Board.class);
         query.setParameter(1, id);
 
-        Board board = (Board) query.getSingleResult();
-        return board;
+        try {
+            Board board = (Board) query.getSingleResult();
+            return board;
+        } catch (NoResultException e) {
+            // 해당 ID에 대한 게시글을 찾을 수 없는 경우
+            return null;
+        } catch (Exception e) {
+            // 예외 발생 시 처리 코드
+            throw new RuntimeException("게시글을 찾는 중 오류가 발생했습니다.", e);
+        }
     }
 
     public BoardResponse.DetailDTO findByIdWithUser(int idx) {
