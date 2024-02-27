@@ -183,13 +183,20 @@ public class BoardController {
         User sessionUser = (User) session.getAttribute("sessionUser");
         // 1. 모델 진입 - 상세보기 데이터 가져오기
         BoardResponse.DetailDTO boardDTO = boardRepository.findByIdWithUser(id);
-        boardDTO.isOwner(sessionUser);
         List<BoardResponse.ReplyDTO> replyDTOList = replyRepository.findByBoardId(id,sessionUser);
+        boardDTO.isOwner(sessionUser);
 
         request.setAttribute("board", boardDTO);
         request.setAttribute("replyList", replyDTOList);
-        LoveResponse.DetailDTO responsDTO = loveRepository.findLove(id, sessionUser.getId());
-        request.setAttribute("love", responsDTO);
+
+        if (sessionUser == null) {
+            LoveResponse.DetailDTO responsDTO = loveRepository.findLove(id);
+            request.setAttribute("love", responsDTO);
+        } else {
+            LoveResponse.DetailDTO responsDTO = loveRepository.findLove(id, sessionUser.getId());
+            request.setAttribute("love", responsDTO);
+        }
+
 
         return "board/detail";
     }
