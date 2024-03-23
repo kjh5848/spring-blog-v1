@@ -15,4 +15,10 @@ public class Board {
     private String author;
     private String title;
     private String content;
+    private String 머지테스트브랜치;
+    private String 머지테스트브랜치2;
+    private String 머지테스트브랜치3;
+    private String 머지테스트브랜치4;
+    private String 머지테스트브랜치5;
+    private String 머지테스트브랜치6;
 }
