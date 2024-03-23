@@ -22,6 +22,4 @@ public class Board {
     private String UI로머지테스트하기4;
     private String UI로머지테스트하기5;
 
-
-
 }
