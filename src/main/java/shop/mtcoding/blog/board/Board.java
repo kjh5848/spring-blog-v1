@@ -16,14 +16,12 @@ public class Board {
     private String title;
     private String content;
 
-    private String UI로머지하기1;
-    private String UI로머지하기2;
-    private String UI로머지하기3;
-    private String UI로머지하기4;
-    private String UI로머지하기5;
-    private String UI로머지하기6;
-    private String UI로머지하기7;
-    private String UI로머지하기8;
-
+    private String 머지테스트브랜치1;
+    private String 머지테스트브랜치2;
+    private String 머지테스트브랜치3;
+    private String 머지테스트브랜치4;
+    private String 머지테스트브랜치5;
+    private String 머지테스트브랜치6;
+    private String 머지테스트브랜치7;
 
 }
