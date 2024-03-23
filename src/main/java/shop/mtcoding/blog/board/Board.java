@@ -19,5 +19,6 @@ public class Board {
     private String 메인필드2;
     private String 메인필드3;
     private String 메인필드4;
+    private String 메인필드5;
 
 }
