@@ -21,6 +21,7 @@ public class Board {
     private String UI로머지하기3;
     private String UI로머지하기4;
     private String UI로머지하기5;
+    private String UI로머지하기6;
 
 
 }
