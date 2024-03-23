@@ -14,15 +14,16 @@ import java.util.List;
 @Controller
 public class BoardController {
 
-
+//머지테스트
     private final BoardRepository boardRepository;
 
 
     @GetMapping("/")
     public String index(HttpServletRequest request) {
         List<Board> boardList = boardRepository.findAll();
-
+//머지테스트
         request.setAttribute("boardList",boardList);
+//머지테스트
 
         return "index";
     }
